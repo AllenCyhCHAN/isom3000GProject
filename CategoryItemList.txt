@@ -1,0 +1,4 @@
+id,categoryname, categoryDescription, categoryColor
+12312,entertainment,,
+05d6952c-2098-4c84-92d4-b06b802fe545,other,,
+21312,food,,
