@@ -19,11 +19,15 @@ fun main(){
 
     for (category in categoryList){
         println(category.getCategoryName())
+        println(category.getCategoryExpense())
         println(category.getExpenseItemList().size)
     }
 
+    println()
+
     for (expenseItem in expenseItemList){
         println(expenseItem.getExpenseName())
+        println(expenseItem.getPersonalAmount())
         println(expenseItem.getCategoryName())
     }
 }
@@ -271,7 +275,7 @@ class DataDriver {
 
     fun appendExpenseItemToCategory(expenseItem: ExpenseItem){
         for (category in categoryList){
-            if (category.getID().equals(expenseItem.getID())){
+            if (category.getCategoryName().equals(expenseItem.getCategoryName())){
                 category.appendExpenseToList(expenseItem);
             }
         }

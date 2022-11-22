@@ -1,6 +1,6 @@
 id, expenseName, categoryName, totalAmount, numberOfSplit, personalAmount, shop, entryDatetime, paymentMethod, note, hasSettled
-fd64044a-3e69-4d5a-afe8-4c5776cf975e,ipad,electronic,200.0,1,0.0,200.0,apple,2022/12/2,cash,false
-f9c2b43e-4482-4a70-8794-271e6976c567,LOL,entertainment,200.0,2,0.0,100.0,apple,2022/12/2,cash,false
-8af1756e-74d4-4acd-b938-3e7f293a0741,apple watch,electronic,20000.0,2,0.0,10000.0,apple,2022/12/2,cash,false
-f07f4948-1005-4474-a83e-d9dce6e6fda3,mc donald,food,200.0,2,0.0,100.0,apple,2022/12/2,cash,false
-03f20261-1bc9-4282-8072-141f8d82da2e,coffee,other,200.0,2,0.0,100.0,apple,2022/12/2,cash,false
+fd64044a-3e69-4d5a-afe8-4c5776cf975e,ipad,electronic,200.0,1,200.0,apple,2022/12/2,cash,,false
+f9c2b43e-4482-4a70-8794-271e6976c567,LOL,entertainment,200.0,2,100.0,apple,2022/12/2,cash,f,alse
+8af1756e-74d4-4acd-b938-3e7f293a0741,apple watch,electronic,20000.0,2,10000.0,apple,2022/12/2,cash,,false
+f07f4948-1005-4474-a83e-d9dce6e6fda3,mc donald,food,200.0,2,100.0,apple,2022/12/2,cash,,false
+03f20261-1bc9-4282-8072-141f8d82da2e,coffee,other,200.0,2,100.0,apple,2022/12/2,cash,,false
