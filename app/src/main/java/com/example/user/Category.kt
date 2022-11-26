@@ -1,11 +1,12 @@
 package com.example.user
 
 import java.io.File
+import java.io.Serializable
 import java.util.*
 import kotlin.collections.ArrayList
 
 
-class Category {
+class Category : Serializable{
     private var id: String = "";
     private var categoryName: String = "";
     private var categoryDescription: String = "";
@@ -34,6 +35,12 @@ class Category {
         this.id = UUID.randomUUID().toString();
         this.categoryName = _categoryName;
         appendCategorytoStorage();
+    }
+
+    constructor(_categoryName: String, testing: Boolean){
+        this.id = UUID.randomUUID().toString();
+        this.categoryName = _categoryName;
+//        appendCategorytoStorage();
     }
 
     fun getID(): String{

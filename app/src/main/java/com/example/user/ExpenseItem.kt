@@ -1,9 +1,10 @@
 package com.example.user
 
 import java.io.File
+import java.io.Serializable
 import java.util.*
 
-class ExpenseItem {
+class ExpenseItem: Serializable {
     private var id:String = "";
     private var expenseName: String = "";
     private var categoryName = "";

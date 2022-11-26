@@ -1,6 +1,7 @@
 package com.example.user
 
 import java.io.File
+import java.io.Serializable
 import kotlin.math.exp
 
 
@@ -32,7 +33,7 @@ fun main(){
     }
 }
 
-class DataDriver {
+class DataDriver: Serializable {
 
     private var categoryList = arrayListOf<Category>();
     private var expenseItemList = arrayListOf<ExpenseItem>();
@@ -50,7 +51,7 @@ class DataDriver {
     }
 
 
-    // for anders
+    // for Anders
     fun login(_password: String): Boolean{
         if (currentUser.login(_password))
             this.isLogin = true
@@ -71,7 +72,7 @@ class DataDriver {
         this.acIsCreated = true;
     }
 
-    //end of code for enders
+    //end of code for Anders
 
     fun getExpenseItemList():List<ExpenseItem>{
         return this.expenseItemList;
@@ -180,8 +181,6 @@ class DataDriver {
 
     //end of code for jason
 
-
-
     fun getBudgetIsCreated():Boolean{
         return this.budgetIsCreated;
     }
@@ -198,6 +197,14 @@ class DataDriver {
     private fun initializeCategory(){
         val path = System.getProperty("user.dir");
         val file = File(path, "CategoryItemList.txt");
+
+        if (file.length().toInt() == 0){
+            file.createNewFile()
+            file.writeText("id,categoryname, categoryDescription, categoryColor\n");
+            categoryList.add(Category("other"));
+            return
+        }
+
         val content = file.readLines();
         var hasOtherCategory = false;
         for (row in content){
@@ -221,6 +228,13 @@ class DataDriver {
     private fun initializeExpenseItem() {
         val path = System.getProperty("user.dir");
         val file = File(path, "ExpenseItemList.txt");
+        if (file.length().toInt() == 0){
+            file.createNewFile()
+            var budgetHeaderString =
+                "id,expenseName,categoryName,totalAmount,numberOfSplit,personalAmount,shop,entryDatetime,paymentMethod,note,hasSettled\n";
+            file.writeText(budgetHeaderString);
+            return
+        }
         val content = file.readLines();
         for (row in content) {
             var rowContent = row.split(",");
@@ -286,6 +300,9 @@ class DataDriver {
         var budget: Budget;
         val path = System.getProperty("user.dir");
         val file = File(path, "Budget.txt");
+        if (file.length().toInt() == 0){
+            file.createNewFile()
+        }
         if (file.canRead()) {
             val content = file.readLines()[1].split(",");
             this.currentBudgetItem = Budget(content[1][0].toDouble(), content[1], content[2]);
@@ -296,6 +313,10 @@ class DataDriver {
     private fun initializeUser(){
         val path = System.getProperty("user.dir");
         val file = File(path, "UserPassword.txt");
+        if (file.length().toInt() == 0){
+            file.createNewFile()
+            return
+        }
         if (file.canRead()) {
             val password = file.readLines()[0];
             currentUser = User(password);
