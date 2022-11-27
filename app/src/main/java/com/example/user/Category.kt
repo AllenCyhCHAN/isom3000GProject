@@ -3,9 +3,12 @@ package com.example.user
 import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
+import java.io.Serializable;
+import android.os.Parcelable
+import android.os.Parcel
 
+class Category  : Serializable {
 
-class Category {
     private var id: String = "";
     private var categoryName: String = "";
     private var categoryDescription: String = "";
