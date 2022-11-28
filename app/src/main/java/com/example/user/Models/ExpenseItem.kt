@@ -67,7 +67,7 @@ class ExpenseItem: Serializable {
 
     fun appendExpenseItem(){
         val path = this.fileDir;
-        val file = File(path, "data/ExpenseItemList.txt");
+        val file = File(path, "ExpenseItemList.txt");
         val newExpenseItemString = "$id,$expenseName,$categoryName,$totalAmount,$numberOfSplit,$personalAmount,$shop,$entryDatetime,$paymentMethod,$note,$hasSettled\n";
         if (file.length().toInt() == 0) {
             var budgetHeaderString =

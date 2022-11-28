@@ -46,19 +46,18 @@ class MainActivity : AppCompatActivity() {
         };
 
 
-
         hello = findViewById(R.id.textView);
         btn3 = findViewById(R.id.button3)
         btn3.setOnClickListener{
             masterDataDriver.getCurrentBudgetItem().setBudgetAmount(100.0);
             hello.setText(masterDataDriver.getCurrentBudgetItem().getBudgetAmount().toString());
-//            masterDataDriver.createPassword("Addoil20010717");
-//            println(masterDataDriver.getPassword());
-//            masterDataDriver.createNewCategory("Other", "", "");
-//            masterDataDriver.createNewExpense("Testing", "Other", 100.0,1,
-//            "","","","",false);
-//            println(masterDataDriver.getCategoryList().get(0));
-//            println(masterDataDriver.getExpenseItemList().get(0));
+            masterDataDriver.createPassword("Addoil20010717");
+            println(masterDataDriver.getPassword());
+            masterDataDriver.createNewCategory("Other", "", "");
+            masterDataDriver.createNewExpense("Testing", "Other", 100.0,1,
+            "","","","",false);
+            println(masterDataDriver.getCategoryList().get(0));
+            println(masterDataDriver.getExpenseItemList().get(0));
         }
 
 

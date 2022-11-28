@@ -60,7 +60,7 @@ class Category : Serializable{
 
     private fun appendCategorytoStorage(){
         val path = this.fileDir;
-        val file = File(path, "data/CategoryItemList.txt");
+        val file = File(path, "CategoryItemList.txt");
         val newExpenseItemString = "$id,$categoryName,$categoryDescription,$categoryColor\n";
 
         if (file.length() > 0){

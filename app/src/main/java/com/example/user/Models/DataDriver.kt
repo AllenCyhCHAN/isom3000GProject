@@ -50,8 +50,8 @@ class DataDriver: Serializable {
         this.fileDir = fileDir;
         initializeUser();
         initializeBudget();
-//        initializeCategory();
-//        initializeExpenseItem();
+        initializeCategory();
+        initializeExpenseItem();
     }
 
     fun getPassword():String{
@@ -203,12 +203,12 @@ class DataDriver: Serializable {
 
     private fun initializeCategory(){
         val path = this.fileDir;
-        val file = File(path, "data/CategoryItemList.txt");
+        val file = File(path, "CategoryItemList.txt");
 
         if (file.length().toInt() == 0){
-//            file.createNewFile()
-//            file.writeText("id,categoryname, categoryDescription, categoryColor\n");
-//            categoryList.add(Category("other"));
+            file.createNewFile()
+            file.writeText("id,categoryname, categoryDescription, categoryColor\n");
+            categoryList.add(Category(fileDir,"other"));
             return
         }
 
@@ -234,12 +234,11 @@ class DataDriver: Serializable {
 
     private fun initializeExpenseItem() {
         val path = this.fileDir;
-        val file = File(path, "data/ExpenseItemList.txt");
+        val file = File(path, "ExpenseItemList.txt");
         if (file.length().toInt() == 0){
-//            file.createNewFile()
-//            var budgetHeaderString =
-//                "id,expenseName,categoryName,totalAmount,numberOfSplit,personalAmount,shop,entryDatetime,paymentMethod,note,hasSettled\n";
-//            file.writeText(budgetHeaderString);
+            var budgetHeaderString =
+                "id,expenseName,categoryName,totalAmount,numberOfSplit,personalAmount,shop,entryDatetime,paymentMethod,note,hasSettled\n";
+            file.writeText(budgetHeaderString);
             return
         }
         val content = file.readLines();
