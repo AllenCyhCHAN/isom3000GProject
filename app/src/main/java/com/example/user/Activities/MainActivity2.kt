@@ -18,6 +18,9 @@ class MainActivity2 : AppCompatActivity() {
         textView = findViewById(R.id.main);
 
         val dataDriver = intent.getSerializableExtra("data") as DataDriver;
+        for (categoryItem in dataDriver.getCategoryList()){
+            textView.setText(categoryItem.getCategoryName());
+        }
         textView.text = dataDriver.getPassword();
     }
 

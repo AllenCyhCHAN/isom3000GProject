@@ -50,8 +50,8 @@ class DataDriver: Serializable {
         this.fileDir = fileDir;
         initializeUser();
         initializeBudget();
-        initializeCategory();
-        initializeExpenseItem();
+//        initializeCategory();
+//        initializeExpenseItem();
     }
 
     fun getPassword():String{
@@ -305,39 +305,38 @@ class DataDriver: Serializable {
 
 
     private fun initializeBudget() {
-        var budget: Budget;
         val path = this.fileDir;
-        val file = File(path, "data/Budget.txt");
+        val file = File(path, "Budget.txt");
         if (file.length().toInt() == 0){
-//            file.createNewFile()
+            this.currentBudgetItem = Budget(this.fileDir, 0.0, "");
             return
-        }
-        if (file.canRead()) {
+        } else {
             val content = file.readLines()[1].split(",");
-            this.currentBudgetItem = Budget( this.fileDir,content[1][0].toDouble(), content[1], content[2]);
+            this.currentBudgetItem =
+                Budget(this.fileDir, content[1][0].toDouble(), content[1], content[2]);
             this.budgetIsCreated = true;
         }
     }
 
     private fun initializeUser(){
         val path = this.fileDir;
-        val file = File(path, "data/UserPassword.txt");
+        val file = File(path, "UserPassword.txt");
+        println(file.canWrite());
+        println(file.exists())
         if (file.length().toInt() == 0){
-//            file.createNewFile()
-            return
-        }
-        if (file.canRead()) {
-            val password = file.readLines()[0];
-            currentUser = User(this.fileDir,password);
-            this.acIsCreated = true;
-        } else {
             currentUser = User(this.fileDir);
+            file.writeText("");
+            return
+        } else {
+            val password = file.readLines()[0];
+            currentUser = User(this.fileDir, password);
+            this.acIsCreated = true;
         }
     }
 
     private fun updateCategorytoStorage(){
         val path = this.fileDir;
-        val categoryDetailsFile = File(path, "data/CategoryItemList.txt");
+        val categoryDetailsFile = File(path, "CategoryItemList.txt");
         categoryDetailsFile.writeText("id,categoryname, categoryDescription, categoryColor\n");
         for (category in this.categoryList){
             val newExpenseItemString = "${category.getID()},${category.getCategoryName()},${category.getCategoryDescription()},${category.getCategoryColor()}\n";

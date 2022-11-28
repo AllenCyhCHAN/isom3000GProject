@@ -23,6 +23,7 @@ class Budget: java.io.Serializable{
         updateBudgetToStorage();
     }
 
+
     constructor(fileDir:File, _budget: Double, _start:String, _end:String){
         this.fileDir = fileDir;
         this.budgetAmount = _budget;
@@ -40,7 +41,7 @@ class Budget: java.io.Serializable{
 
     fun updateBudgetToStorage(){
         val path = this.fileDir;
-        val file = File(path, "data/Budget.txt");
+        val file = File(path, "Budget.txt");
         var budgetHeaderString = "budgetAmount,budgetStartingDate,budgetEndingDate\n";
         var budgetContentString = "$budgetAmount,$budgetStartingPeriod,$budgetEndingPeriod\n";
         file.writeText(budgetHeaderString);

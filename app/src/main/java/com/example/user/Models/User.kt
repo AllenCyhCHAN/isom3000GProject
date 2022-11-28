@@ -42,7 +42,7 @@ class User(): Serializable {
 
     private fun updateStoredPassword(_hashedPassword:String){
         val path = this.fileDir;
-        val file = File(path, "data/UserPassword.txt");
+        val file = File(path, "UserPassword.txt");
         if (file.length().toInt() == 0){
             file.setWritable(true)
         }
