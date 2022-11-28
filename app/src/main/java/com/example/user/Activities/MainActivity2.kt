@@ -1,8 +1,10 @@
-package com.example.user
+package com.example.user.Activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
+import com.example.user.Models.DataDriver
+import com.example.user.R
 
 class MainActivity2 : AppCompatActivity() {
 
@@ -16,8 +18,7 @@ class MainActivity2 : AppCompatActivity() {
         textView = findViewById(R.id.main);
 
         val dataDriver = intent.getSerializableExtra("data") as DataDriver;
-        textView.setText(dataDriver.getTotalExpense().toString());
+        textView.text = dataDriver.getPassword();
     }
-
 
 }

@@ -1,4 +1,4 @@
-package com.example.user
+package com.example.user.Models
 
 import java.io.File
 import java.io.Serializable
@@ -16,8 +16,10 @@ class ExpenseItem: Serializable {
     private var paymentMethod = "";
     private var note = "";
     private var hasSettled = false;
+    lateinit var fileDir:File;
 
-    constructor(_expenseName: String, _category: String, _totalAmount: Double, _numberOfSplit: Int, _shop: String, _entryDatetime: String, _paymentMethod: String, _note: String, _hasSettled: Boolean){
+    constructor(fileDir:File ,_expenseName: String, _category: String, _totalAmount: Double, _numberOfSplit: Int, _shop: String, _entryDatetime: String, _paymentMethod: String, _note: String, _hasSettled: Boolean){
+        this.fileDir = fileDir;
         id = UUID.randomUUID().toString();
         expenseName = _expenseName;
         categoryName = _category;
@@ -32,7 +34,8 @@ class ExpenseItem: Serializable {
         appendExpenseItem();
     }
 
-    constructor(_expenseName: String, _category: String, _totalAmount: Double, _shop: String, _entryDatetime: String, _paymentMethod: String, _note: String, _hasSettled: Boolean){
+    constructor(fileDir:File ,_expenseName: String, _category: String, _totalAmount: Double, _shop: String, _entryDatetime: String, _paymentMethod: String, _note: String, _hasSettled: Boolean){
+        this.fileDir = fileDir
         id = UUID.randomUUID().toString();
         expenseName = _expenseName;
         categoryName = _category;
@@ -47,7 +50,8 @@ class ExpenseItem: Serializable {
         appendExpenseItem();
     }
 
-    constructor(_id:String, _expenseName: String, _category: String, _totalAmount: Double, _numberOfSplit: Int, _shop: String, _entryDatetime: String, _paymentMethod: String, _note: String, _personalAmount: Double, _hasSettled: Boolean){
+    constructor(fileDir:File , _id:String, _expenseName: String, _category: String, _totalAmount: Double, _numberOfSplit: Int, _shop: String, _entryDatetime: String, _paymentMethod: String, _note: String, _personalAmount: Double, _hasSettled: Boolean){
+        this.fileDir = fileDir;
         id = _id;
         expenseName = _expenseName;
         categoryName = _category;
@@ -62,8 +66,8 @@ class ExpenseItem: Serializable {
     }
 
     fun appendExpenseItem(){
-        val path = System.getProperty("user.dir");
-        val file = File(path, "ExpenseItemList.txt");
+        val path = this.fileDir;
+        val file = File(path, "data/ExpenseItemList.txt");
         val newExpenseItemString = "$id,$expenseName,$categoryName,$totalAmount,$numberOfSplit,$personalAmount,$shop,$entryDatetime,$paymentMethod,$note,$hasSettled\n";
         if (file.length().toInt() == 0) {
             var budgetHeaderString =

@@ -1,8 +1,7 @@
-package com.example.user
+package com.example.user.Models
 
 import java.io.File
 import java.io.Serializable
-import kotlin.math.exp
 
 
 //category list
@@ -13,24 +12,26 @@ import kotlin.math.exp
 //budget details
 
 
+
 fun main(){
-    val datadriver = DataDriver();
-    var expenseItemList = datadriver.getExpenseItemList();
-    var categoryList = datadriver.getCategoryList();
 
-    for (category in categoryList){
-        println(category.getCategoryName())
-        println(category.getCategoryExpense())
-        println(category.getExpenseItemList().size)
-    }
-
-    println()
-
-    for (expenseItem in expenseItemList){
-        println(expenseItem.getExpenseName())
-        println(expenseItem.getPersonalAmount())
-        println(expenseItem.getCategoryName())
-    }
+//    val datadriver = DataDriver();
+//    var expenseItemList = datadriver.getExpenseItemList();
+//    var categoryList = datadriver.getCategoryList();
+//
+//    for (category in categoryList){
+//        println(category.getCategoryName())
+//        println(category.getCategoryExpense())
+//        println(category.getExpenseItemList().size)
+//    }
+//
+//    println()
+//
+//    for (expenseItem in expenseItemList){
+//        println(expenseItem.getExpenseName())
+//        println(expenseItem.getPersonalAmount())
+//        println(expenseItem.getCategoryName())
+//    }
 }
 
 class DataDriver: Serializable {
@@ -42,12 +43,19 @@ class DataDriver: Serializable {
     private var budgetIsCreated: Boolean = false;
     private var currentBudgetItem: Budget = Budget();
     private var currentUser: User = User();
+    var fileDir:File;
 
-    constructor(){
+    constructor(fileDir: File){
+        println(fileDir);
+        this.fileDir = fileDir;
         initializeUser();
         initializeBudget();
         initializeCategory();
         initializeExpenseItem();
+    }
+
+    fun getPassword():String{
+        return currentUser.getPassword();
     }
 
 
@@ -71,7 +79,6 @@ class DataDriver: Serializable {
         currentUser.createPassword(_password);
         this.acIsCreated = true;
     }
-
     //end of code for Anders
 
     fun getExpenseItemList():List<ExpenseItem>{
@@ -96,7 +103,7 @@ class DataDriver: Serializable {
     }
 
     fun addCategoryToList(_categoryName: String, _categoryDescription: String, _categoryColor: String): Boolean{
-        val categoryItem = Category(_categoryName, _categoryDescription, _categoryColor);
+        val categoryItem = Category(this.fileDir,_categoryName, _categoryDescription, _categoryColor);
         if (checkIfCategoryExist(categoryItem)){
             categoryList.add(categoryItem);
             return true
@@ -120,13 +127,13 @@ class DataDriver: Serializable {
     }
 
 
-    private fun getOtherCategory(): Category{
+    private fun getOtherCategory(): Category {
         for (category in categoryList){
             if (category.getCategoryName() == "other"){
                 return category
             }
         }
-        return Category("other");
+        return Category(this.fileDir, "other");
     }
 
     //end of code for anson
@@ -185,23 +192,23 @@ class DataDriver: Serializable {
         return this.budgetIsCreated;
     }
 
-    fun getCurrentBudgetItem():Budget{
+    fun getCurrentBudgetItem(): Budget {
         return this.currentBudgetItem;
     }
 
-    fun getCurrentUser():User{
+    fun getCurrentUser(): User {
         return this.currentUser;
     }
 
 
     private fun initializeCategory(){
-        val path = System.getProperty("user.dir");
-        val file = File(path, "CategoryItemList.txt");
+        val path = this.fileDir;
+        val file = File(path, "data/CategoryItemList.txt");
 
         if (file.length().toInt() == 0){
-            file.createNewFile()
-            file.writeText("id,categoryname, categoryDescription, categoryColor\n");
-            categoryList.add(Category("other"));
+//            file.createNewFile()
+//            file.writeText("id,categoryname, categoryDescription, categoryColor\n");
+//            categoryList.add(Category("other"));
             return
         }
 
@@ -214,25 +221,25 @@ class DataDriver: Serializable {
             if (rowContent[0].length == 0)
                 continue
 
-            categoryList.add(Category(rowContent[0],rowContent[1], rowContent[2], rowContent[3]));
+            categoryList.add(Category(this.fileDir,rowContent[0],rowContent[1], rowContent[2], rowContent[3]));
             if (rowContent[1] == "other"){
                 hasOtherCategory = true;
             }
         }
 
         if (!hasOtherCategory){
-            categoryList.add(Category("other"))
+            categoryList.add(Category(this.fileDir, "other"))
         }
     }
 
     private fun initializeExpenseItem() {
-        val path = System.getProperty("user.dir");
-        val file = File(path, "ExpenseItemList.txt");
+        val path = this.fileDir;
+        val file = File(path, "data/ExpenseItemList.txt");
         if (file.length().toInt() == 0){
-            file.createNewFile()
-            var budgetHeaderString =
-                "id,expenseName,categoryName,totalAmount,numberOfSplit,personalAmount,shop,entryDatetime,paymentMethod,note,hasSettled\n";
-            file.writeText(budgetHeaderString);
+//            file.createNewFile()
+//            var budgetHeaderString =
+//                "id,expenseName,categoryName,totalAmount,numberOfSplit,personalAmount,shop,entryDatetime,paymentMethod,note,hasSettled\n";
+//            file.writeText(budgetHeaderString);
             return
         }
         val content = file.readLines();
@@ -270,6 +277,7 @@ class DataDriver: Serializable {
 
 
             var expenseItem = ExpenseItem(
+                this.fileDir,
                 id,
                 expenseName,
                 categoryName,
@@ -298,37 +306,38 @@ class DataDriver: Serializable {
 
     private fun initializeBudget() {
         var budget: Budget;
-        val path = System.getProperty("user.dir");
-        val file = File(path, "Budget.txt");
+        val path = this.fileDir;
+        val file = File(path, "data/Budget.txt");
         if (file.length().toInt() == 0){
-            file.createNewFile()
+//            file.createNewFile()
+            return
         }
         if (file.canRead()) {
             val content = file.readLines()[1].split(",");
-            this.currentBudgetItem = Budget(content[1][0].toDouble(), content[1], content[2]);
+            this.currentBudgetItem = Budget( this.fileDir,content[1][0].toDouble(), content[1], content[2]);
             this.budgetIsCreated = true;
         }
     }
 
     private fun initializeUser(){
-        val path = System.getProperty("user.dir");
-        val file = File(path, "UserPassword.txt");
+        val path = this.fileDir;
+        val file = File(path, "data/UserPassword.txt");
         if (file.length().toInt() == 0){
-            file.createNewFile()
+//            file.createNewFile()
             return
         }
         if (file.canRead()) {
             val password = file.readLines()[0];
-            currentUser = User(password);
+            currentUser = User(this.fileDir,password);
             this.acIsCreated = true;
         } else {
-            currentUser = User();
+            currentUser = User(this.fileDir);
         }
     }
 
     private fun updateCategorytoStorage(){
-        val path = System.getProperty("user.dir");
-        val categoryDetailsFile = File(path, "CategoryItemList.txt");
+        val path = this.fileDir;
+        val categoryDetailsFile = File(path, "data/CategoryItemList.txt");
         categoryDetailsFile.writeText("id,categoryname, categoryDescription, categoryColor\n");
         for (category in this.categoryList){
             val newExpenseItemString = "${category.getID()},${category.getCategoryName()},${category.getCategoryDescription()},${category.getCategoryColor()}\n";
@@ -338,7 +347,7 @@ class DataDriver: Serializable {
 
 
     fun createNewExpense(_expenseName: String, _category: String, _totalAmount: Double, _numberOfSplit: Int, _shop: String, _entryDatetime: String, _paymentMethod: String, _note: String, _hasSettled: Boolean){
-        val expenseItem = ExpenseItem(_expenseName,_category,_totalAmount,_numberOfSplit,_shop,_entryDatetime,_paymentMethod,_note,_hasSettled);
+        val expenseItem = ExpenseItem(this.fileDir,_expenseName,_category,_totalAmount,_numberOfSplit,_shop,_entryDatetime,_paymentMethod,_note,_hasSettled);
         expenseItemList.add(expenseItem);
 
     }
@@ -353,14 +362,14 @@ class DataDriver: Serializable {
 
 
     fun createNewCategory(_name:String, _description:String, _color:String){
-        val category = Category(_name, _description, _color);
+        val category = Category(this.fileDir ,_name, _description, _color);
         categoryList.add(category);
         updateCategorytoStorage();
     }
 
 
     private fun updateExpenseItemListStorage(){
-        val path = System.getProperty("user.dir");
+        val path = this.fileDir;
         val file = File(path, "ExpenseItemList.txt");
         var expenseHeaderString = "id, expenseName, categoryName, totalAmount, numberOfSplit, personalAmount, shop, entryDatetime, paymentMethod, note, hasSettled\n";
         file.writeText(expenseHeaderString);

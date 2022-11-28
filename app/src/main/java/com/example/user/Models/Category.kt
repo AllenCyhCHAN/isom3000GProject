@@ -1,4 +1,4 @@
-package com.example.user
+package com.example.user.Models
 
 import java.io.File
 import java.io.Serializable
@@ -12,11 +12,13 @@ class Category : Serializable{
     private var categoryDescription: String = "";
     private var categoryColor: String = "";
     private var expenseItemList = arrayListOf<ExpenseItem>();
+    private lateinit var fileDir:File;
 
     constructor(){
     }
 
-    constructor(_categoryName: String, _categoryDescription: String, _categoryColor: String){
+    constructor(fileDir:File, _categoryName: String, _categoryDescription: String, _categoryColor: String){
+        this.fileDir = fileDir;
         this.id = UUID.randomUUID().toString();
         this.categoryName = _categoryName;
         this.categoryDescription = _categoryDescription;
@@ -24,23 +26,19 @@ class Category : Serializable{
         appendCategorytoStorage();
     }
 
-    constructor(_id: String, _categoryName: String, _categoryDescription: String, _categoryColor: String){
+    constructor(fileDir:File ,_id: String, _categoryName: String, _categoryDescription: String, _categoryColor: String){
+        this.fileDir = fileDir;
         this.id = _id;
         this.categoryName = _categoryName;
         this.categoryDescription = _categoryDescription;
         this.categoryColor = _categoryColor;
     }
 
-    constructor(_categoryName: String){
+    constructor(fileDir:File, _categoryName: String){
+        this.fileDir = fileDir;
         this.id = UUID.randomUUID().toString();
         this.categoryName = _categoryName;
         appendCategorytoStorage();
-    }
-
-    constructor(_categoryName: String, testing: Boolean){
-        this.id = UUID.randomUUID().toString();
-        this.categoryName = _categoryName;
-//        appendCategorytoStorage();
     }
 
     fun getID(): String{
@@ -60,10 +58,9 @@ class Category : Serializable{
 
     }
 
-
-    fun appendCategorytoStorage(){
-        val path = System.getProperty("user.dir");
-        val file = File(path, "CategoryItemList.txt");
+    private fun appendCategorytoStorage(){
+        val path = this.fileDir;
+        val file = File(path, "data/CategoryItemList.txt");
         val newExpenseItemString = "$id,$categoryName,$categoryDescription,$categoryColor\n";
 
         if (file.length() > 0){

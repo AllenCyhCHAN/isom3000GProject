@@ -1,30 +1,30 @@
-package com.example.user
+package com.example.user.Models
 
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
 fun main(){
-    val budget = Budget(200.0, "2022/12/31");
-    val path = System.getProperty("user.dir");
-    val file = File(path, "Budget.txt");
-    print(file.readLines());
 }
 
 
-class Budget{
+
+class Budget: java.io.Serializable{
+    lateinit var fileDir:File;
     private var budgetAmount: Double = 0.0
     private var budgetStartingPeriod = "";
     private var budgetEndingPeriod:String = "";
 
-    constructor(_budget: Double, _end:String){
+    constructor(fileDir:File ,_budget: Double, _end:String){
+        this.fileDir = fileDir;
         this.budgetAmount = _budget;
         this.budgetStartingPeriod = SimpleDateFormat("dd/M/yyyy").format(Calendar.getInstance().time);
         this.budgetEndingPeriod = _end;
         updateBudgetToStorage();
     }
 
-    constructor(_budget: Double, _start:String, _end:String){
+    constructor(fileDir:File, _budget: Double, _start:String, _end:String){
+        this.fileDir = fileDir;
         this.budgetAmount = _budget;
         this.budgetStartingPeriod = _start;
         this.budgetEndingPeriod = _end;
@@ -39,8 +39,8 @@ class Budget{
 //    }
 
     fun updateBudgetToStorage(){
-        val path = System.getProperty("user.dir");
-        val file = File(path, "Budget.txt");
+        val path = this.fileDir;
+        val file = File(path, "data/Budget.txt");
         var budgetHeaderString = "budgetAmount,budgetStartingDate,budgetEndingDate\n";
         var budgetContentString = "$budgetAmount,$budgetStartingPeriod,$budgetEndingPeriod\n";
         file.writeText(budgetHeaderString);

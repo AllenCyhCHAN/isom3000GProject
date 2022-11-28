@@ -1,13 +1,24 @@
-package com.example.user
+package com.example.user.Models
 import org.mindrot.jbcrypt.BCrypt
 import java.io.File
+import java.io.Serializable
 
 
-class User() {
+class User(): Serializable {
+    lateinit var fileDir:File;
     private var hashedPassword: String = "";
 
-    constructor(_hashedPassword: String) : this() {
+    constructor(fileDir:File ,_hashedPassword: String) : this() {
+        this.fileDir = fileDir;
         hashedPassword = _hashedPassword;
+    }
+
+    constructor(fileDir:File) : this() {
+        this.fileDir = fileDir;
+    }
+
+    fun getPassword():String{
+        return this.hashedPassword;
     }
 
     fun createPassword(_stringPassword:String){
@@ -30,8 +41,11 @@ class User() {
     }
 
     private fun updateStoredPassword(_hashedPassword:String){
-        val path = System.getProperty("user.dir");
-        val file = File(path, "UserPassword.txt");
+        val path = this.fileDir;
+        val file = File(path, "data/UserPassword.txt");
+        if (file.length().toInt() == 0){
+            file.setWritable(true)
+        }
         file.writeText(_hashedPassword);
     }
 
