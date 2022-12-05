@@ -58,6 +58,10 @@ class DataDriver: Serializable {
         return currentUser.getPassword();
     }
 
+    fun getAcIsCreated():Boolean{
+        return acIsCreated;
+    }
+
 
     // for Anders
     fun login(_password: String): Boolean{

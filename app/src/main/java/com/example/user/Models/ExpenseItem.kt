@@ -34,7 +34,7 @@ class ExpenseItem: Serializable {
         appendExpenseItem();
     }
 
-    constructor(fileDir:File ,_expenseName: String, _category: String, _totalAmount: Double, _shop: String, _entryDatetime: String, _paymentMethod: String, _note: String, _hasSettled: Boolean){
+    constructor(fileDir: File, _expenseName: String, _category: String, _totalAmount: Double, _shop: String, _entryDatetime: String, _paymentMethod: String, _note: String, _hasSettled: Boolean){
         this.fileDir = fileDir
         id = UUID.randomUUID().toString();
         expenseName = _expenseName;
