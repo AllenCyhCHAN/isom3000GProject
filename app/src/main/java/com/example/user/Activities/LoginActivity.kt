@@ -29,13 +29,13 @@ class LoginActivity : AppCompatActivity() {
         infoDisplay = findViewById(R.id.nesten)
         check = findViewById(R.id.checkBox)
 
-        masterDataDriver = intent.getSerializableExtra("data") as DataDriver
+        masterDataDriver = intent.getSerializableExtra("driver") as DataDriver
 
         loginBtn.setOnClickListener {
             if (masterDataDriver.login(passwordInput.text.toString())) {
                 startActivity(
-                    Intent(this, MainActivity::class.java)
-                        .putExtra("data", masterDataDriver)
+                    Intent(this, categoryListPage::class.java)
+                        .putExtra("driver", masterDataDriver)
                 )
             } else {
                 infoDisplay.setText("Wrong password, please try again.")

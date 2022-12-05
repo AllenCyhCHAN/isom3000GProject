@@ -17,9 +17,9 @@ class SplashScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
  
-       val dataDriver = DataDriver(filesDir)
+         masterDataDriver = DataDriver(filesDir)
         //check go to create user page or sign in page
-        val logined = dataDriver.getAcIsCreated()
+        val logined = masterDataDriver.getAcIsCreated()
         var temp:Intent;
 
         if (logined){
@@ -31,6 +31,7 @@ class SplashScreen : AppCompatActivity() {
         }
 
         Handler().postDelayed({
+            temp.putExtra("driver",masterDataDriver)
             startActivity(temp)
             finish()
         }, 1000)
